@@ -1,0 +1,50 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql80
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: En3s1sr7!
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+      - ./conf/mysql/my.cnf:/etc/mysql/conf.d/my_custom.cnf
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: pma
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: homestead
+      PMA_PASSWORD: secret
+    ports:
+      - "8080:80"
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  apache-php74:
+    build: .
+    container_name: apache-php74
+    restart: always
+    ports:
+      - "8081:80"
+      - "8443:443"
+    volumes:
+      - /Users/emanueletoffolon/Web:/var/www/html
+      - ./conf/apache/vhosts.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./conf/apache/vhosts-ssl.conf:/etc/apache2/sites-enabled/default-ssl.conf
+      - ./conf/apache/ssl:/etc/apache2/ssl
+      - ./conf/apache/php74-custom.ini:/usr/local/etc/php/conf.d/php74-custom.ini
+    depends_on:
+      - mysql      

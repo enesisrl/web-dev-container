@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+    ServerName dominio.test
+    DocumentRoot /var/www/html/dominio
+    <Directory "/var/www/html/dominio">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

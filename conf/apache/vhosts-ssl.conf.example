@@ -1,0 +1,15 @@
+
+<VirtualHost *:443>
+    ServerName dominio.test
+    DocumentRoot /var/www/html/dominio
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/dominio.test.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/dominio.test.key
+
+    <Directory "/var/www/html/dominio">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+

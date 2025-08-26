@@ -1,0 +1,5 @@
+*.crt
+*.key
+/conf/apache/vhosts.conf
+/conf/apache/vhosts-ssl.conf
+/data/*
