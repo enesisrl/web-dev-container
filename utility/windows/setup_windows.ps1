@@ -38,9 +38,9 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw "Docker command failed"
     }
-    Write-Host "✓ Docker trovato: $dockerVersion" -ForegroundColor $ColorSuccess
+    Write-Host "[OK] Docker trovato: $dockerVersion" -ForegroundColor $ColorSuccess
 } catch {
-    Write-Host "✗ Docker Desktop non trovato o non in esecuzione!" -ForegroundColor $ColorError
+    Write-Host "[ERR] Docker Desktop non trovato o non in esecuzione!" -ForegroundColor $ColorError
     Write-Host ""
     Write-Host "Per continuare devi:" -ForegroundColor $ColorWarning
     Write-Host "1. Scaricare Docker Desktop da: https://www.docker.com/products/docker-desktop" -ForegroundColor $ColorInfo
@@ -56,9 +56,9 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw "Docker Compose command failed"
     }
-    Write-Host "✓ Docker Compose trovato: $composeVersion" -ForegroundColor $ColorSuccess
+    Write-Host "[OK] Docker Compose trovato: $composeVersion" -ForegroundColor $ColorSuccess
 } catch {
-    Write-Host "⚠ Docker Compose non trovato - verrà usato 'docker compose'" -ForegroundColor $ColorWarning
+    Write-Host "[WARN] Docker Compose non trovato - verrà usato 'docker compose'" -ForegroundColor $ColorWarning
 }
 
 Write-Host ""
@@ -73,17 +73,17 @@ $requiredFiles = @("docker-compose.yml", "Dockerfile")
 foreach ($dir in $requiredDirs) {
     if (-not (Test-Path $dir)) {
         New-Item -ItemType Directory -Path $dir -Force | Out-Null
-        Write-Host "✓ Creata directory: $dir" -ForegroundColor $ColorSuccess
+        Write-Host "[OK] Creata directory: $dir" -ForegroundColor $ColorSuccess
     } else {
-        Write-Host "○ Directory esistente: $dir" -ForegroundColor $ColorInfo
+        Write-Host "[INFO] Directory esistente: $dir" -ForegroundColor $ColorInfo
     }
 }
 
 foreach ($file in $requiredFiles) {
     if (Test-Path $file) {
-        Write-Host "✓ File trovato: $file" -ForegroundColor $ColorSuccess
+        Write-Host "[OK] File trovato: $file" -ForegroundColor $ColorSuccess
     } else {
-        Write-Host "⚠ File mancante: $file" -ForegroundColor $ColorWarning
+        Write-Host "[WARN] File mancante: $file" -ForegroundColor $ColorWarning
     }
 }
 
@@ -110,12 +110,12 @@ foreach ($config in $apacheConfigs) {
     if (-not (Test-Path $config.dst)) {
         if (Test-Path $config.src) {
             Copy-Item $config.src $config.dst
-            Write-Host "✓ Creato: $($config.dst) ($($config.desc))" -ForegroundColor $ColorSuccess
+            Write-Host "[OK] Creato: $($config.dst) ($($config.desc))" -ForegroundColor $ColorSuccess
         } else {
-            Write-Host "⚠ File esempio non trovato: $($config.src)" -ForegroundColor $ColorWarning
+            Write-Host "[WARN] File esempio non trovato: $($config.src)" -ForegroundColor $ColorWarning
         }
     } else {
-        Write-Host "○ Già esistente: $($config.dst)" -ForegroundColor $ColorInfo
+        Write-Host "[INFO] Già esistente: $($config.dst)" -ForegroundColor $ColorInfo
     }
 }
 
@@ -123,9 +123,9 @@ foreach ($config in $apacheConfigs) {
 $sslDir = "conf/apache/ssl"
 if (-not (Test-Path $sslDir)) {
     New-Item -ItemType Directory -Path $sslDir -Force | Out-Null
-    Write-Host "✓ Creata directory SSL: $sslDir" -ForegroundColor $ColorSuccess
+    Write-Host "[OK] Creata directory SSL: $sslDir" -ForegroundColor $ColorSuccess
 } else {
-    Write-Host "○ Directory SSL esistente: $sslDir" -ForegroundColor $ColorInfo
+    Write-Host "[INFO] Directory SSL esistente: $sslDir" -ForegroundColor $ColorInfo
 }
 
 Write-Host ""
@@ -167,9 +167,9 @@ if (-not (Test-Path $webPath)) {
     if ($create -eq "" -or $create -eq "Y" -or $create -eq "y") {
         try {
             New-Item -ItemType Directory -Path $webPath -Force | Out-Null
-            Write-Host "✓ Directory creata: $webPath" -ForegroundColor $ColorSuccess
+            Write-Host "[OK] Directory creata: $webPath" -ForegroundColor $ColorSuccess
         } catch {
-            Write-Host "✗ Impossibile creare la directory: $_" -ForegroundColor $ColorError
+            Write-Host "[ERR] Impossibile creare la directory: $_" -ForegroundColor $ColorError
         }
     }
 }
@@ -183,7 +183,7 @@ Write-Host "IMPORTANTE: Modifica manuale richiesta" -ForegroundColor $ColorWarni
 Write-Host "Nel file docker-compose.yml, sostituisci la riga:" -ForegroundColor $ColorInfo
 Write-Host "      - /Users/emanueletoffolon/Web:/var/www/html" -ForegroundColor $ColorError
 Write-Host "con:" -ForegroundColor $ColorInfo
-Write-Host "      - $dockerPath:/var/www/html" -ForegroundColor $ColorSuccess
+Write-Host "      - ${dockerPath}:/var/www/html" -ForegroundColor $ColorSuccess
 Write-Host ""
 
 # Step 5: Informazioni finali
@@ -201,7 +201,7 @@ Write-Host "   - phpMyAdmin: http://localhost:8080" -ForegroundColor $ColorInfo
 Write-Host "   - MySQL: localhost:3306 (user: homestead, pass: secret)" -ForegroundColor $ColorInfo
 Write-Host ""
 
-Write-Host "Script di utilità disponibili:" -ForegroundColor $ColorInfo
+Write-Host "Script di utilita' disponibili:" -ForegroundColor $ColorInfo
 Write-Host "- Import database: .\utility\import_db.ps1" -ForegroundColor $ColorInfo
 Write-Host "- Import database (batch): .\utility\import_db.bat" -ForegroundColor $ColorInfo
 Write-Host ""
